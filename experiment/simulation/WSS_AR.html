@@ -7,7 +7,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <title>Virtual Labs</title>
 	<style>
-	#checkautocorrelation, #checkautocorrelationoutput, #inst {
+		#checkautocorrelation, #checkautocorrelationoutput, #inst {
     color: #333;
     font-size: 25px; /* Increased font size */
 	font-weight: 500;
@@ -145,13 +145,18 @@ li.step:hover {
     <!-- sidebar and body -->
 	    <!-- sidebar and body -->
 	<div id = "instructions">
-    <h1 id ="inst">Instructions for Wide Sense Stationary Simulator when the system is LTI</h1>
+    <h1 id ="inst">Instructions for Wide Sense Stationary Simulator when the system is Autoregressive (AR)</h1>
 <ul>
     <li class="step step1">Step 1: Click on "Generate WSS" to generate a wide-sense stationary (WSS) signal, whose mean and autocorrelation do not change over time.</li>
     <li class="step step2">Step 2: You may also choose "Noisy Sinusoid" from the input type dropdown.</li> 
-    <li class="step step3">Step 3: Click on "Plot CIR" to generate the LTI filter coefficients.</li>
-    <li class="step step4">Step 4: Click on "Generate Output" to produce the output signal after filtration.</li>
-    <li class="step step1">Step 5: You can see the auto-correlation plot by clicking the "Calculate Auto-correlation" button.</li>
+    <li class="step step3">Step 3: Click on "Plot CIR Coefficients" to generate the channel impulse response coefficients.</li>
+    <li class="step step3">Step 4: Click on "Generate Output" to produce the output signal after ARMA filtration.</li>
+    <li class="step step4">Step 5: You can see the auto-correlation plot by clicking the "Calculate Auto-correlation" button.</li>
+   <!---
+    <li>Step 4: Click on "Calculate Autocorrelation" to verify whether the output signal retains the properties of WSS.</li>
+   <li>R(τ) represents the autocorrelation function of the signal as a function of the lag τ, where τ = t<sub>2</sub> - t<sub>1</sub> is the time difference (or lag) between two time points, R(τ) = <strong>E</strong>[x(t) ⋅ x(t + τ)]</li>
+<li>In the context of Wide-Sense Stationary (WSS) signals, the autocorrelation R(t<sub>1</sub>, t<sub>2</sub>) represents the statistical measure of how the signal at one time point t<sub>1</sub> correlates with the signal at another time point t<sub>2</sub>, R(t<sub>1</sub>, t<sub>2</sub>) = <strong>E</strong>[x(t<sub>1</sub>) ⋅ x(t<sub>2</sub>)]</li>
+   -->
 </ul>
 
 	</div>
@@ -168,86 +173,81 @@ li.step:hover {
 <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="numSamples" value="1000">
                 </div>
                 <div class="flex items-center justify-center gap-1 mt-2">
-                  <label for="mean">Mean:</label>
-          <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="mean" value="0">
-              </div>
-              <div class="flex items-center justify-center gap-1 mt-2">
-                  <label for="variance">Variance:</label>
-          <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="variance" value="1">
-              </div>
-			<div class="flex items-center justify-center gap-1 mt-2">
-        <label for="impulseResponse">Channel Impulse Response:</label>
-<input class="input-field border border-black px-2 py-1 rounded-sm" type="text" id="impulseResponse" value="0.2,0.5,0.2">
-</div>
-</div>
-</div>
-<label for="noisySinusoid">Choose Input Type:</label>
-<select id="noisySinusoid" name="inputType">
-  <option value="wss" selected>WSS</option>
-  <option value="noisySinusoid">Noisy Sinusoid</option>
-</select>
-<div id = "optionBlock">
-<label for="amplitude">Amplitude:</label>
-<input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="amplitude" value="1">
-<label for="frequency">Frequency (Hz):</label>
-<input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="frequency" value="50">
-</div>
-</div>
-</div>
-</div>
-</div>
+                    <label for="mean">Mean:</label>
+            <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="mean" value="0">
+                </div>
+                <div class="flex items-center justify-center gap-1 mt-2">
+                    <label for="variance">Variance:</label>
+            <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="variance" value="1">
+                </div>
+		<div class="flex items-center justify-center gap-1 mt-2">
+        <label for="impulseResponsea">AR coefficients (ρ):</label>
+<input class="input-field border border-black px-2 py-1 rounded-sm" type="text" id="impulseResponsea" value="1, -0.8">
+                </div>
+			<div class="flex items-center justify-center gap-1 mt-2 hidden">
+        <label for="impulseResponse">MA coefficients:</label>
+<input class="input-field border border-black px-2 py-1 rounded-sm" type="text" id="impulseResponse" value="1, -0.5">
+                </div>
+            </div>
+            </div>
+            <label for="noisySinusoid">Choose Input Type:</label>
+            <select id="noisySinusoid" name="inputType">
+              <option value="wss" selected>WSS</option>
+              <option value="noisySinusoid">Noisy Sinusoid</option>
+            </select>
+            <div id = "optionBlock">
+            <label for="amplitude">Amplitude:</label>
+            <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="amplitude" value="1">
+            <label for="frequency">Frequency (Hz):</label>
+            <input class="input-field border border-black px-2 py-1 rounded-sm" type="number" id="frequency" value="50">
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
 	<hr/>
 	
 	
 	<div class = "container">
-	<div class="left-half">
-  <div class="flex gap-1 flex-wrap">
-    <div class="flex-1 flex flex-col items-center">
-      <div class="w-full relative"> <!-- Set relative positioning here -->
-        <br><br><br><br>
-        
-        <!-- Absolute positioned image -->
-        <img
-          src="WSS_LTI.png"
-          alt="WSS"
-          style="position: absolute; width: 35em; height: 18em; left: 3em; top: 0;"> <!-- Absolute position for image -->
-        
-        <!-- Buttons positioned relative to the image -->
-        <button
-          class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[8em] left-[1.2em]"
-          onclick="updateOutputs()"
-        >
-          Generate WSS
-        </button>
-        <a href="#realData">
-            <button 
-              class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[11em] left-[1.2em]"
-              aria-expanded="false">
-              Input Real Data
-            </button>
-          </a>
-        
-        <button
-          class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[18em] left-[17em]"
-          onclick="generateImpulseResponse()"
-        >
-          Plot CIR
-        </button>
-
-        <button
-          class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[8em] right-[-2em]"
-          onclick="generateLTIOutput()"
-        >
-          Generate Output
-        </button>
-        <button 
-class="button bg-gray-500 text-white rounded-md px-3 py-2 absolute top-[22em] left-[12.5em]"
-onclick="plotCorrelation()">Calculate Auto-correlation</button>
-        
-      </div>
-    </div>
-  </div>
-</div>
+		<div class = "left-half">
+	          <div class="flex gap-1">
+              <div class="flex-1 flex flex-col items-center">
+                <div class="w-full relative">
+				<br><br><br><br>
+            <img src="WSS_AR.png" alt="WSS" style="position: absolute; width: 35em; height: 18em; left: 3em; top: 0;">
+				<button
+                  class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[10em] left-[1.2em]"
+                  onclick="updateOutputs()"
+                >
+                  Generate WSS
+                </button>
+                <a href="#realData">
+                    <button 
+                      class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[13em] left-[1.2em]"
+                      aria-expanded="false">
+                      Input Real Data
+                    </button>
+                  </a>
+								<button
+                  class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[18em] left-[14em]"
+                  onclick="generateImpulseResponse()"
+                >
+                  Plot CIR Coefficients
+                </button>
+				
+												<button
+                  class="button bg-blue-500 text-white rounded-md px-3 py-2 absolute top-[2.5em] right-[-2em]"
+                  onclick="generateARMAOutput()"
+                >
+                  Generate Output
+                </button>
+                <button 
+                class="button bg-gray-500 text-white rounded-md px-3 py-2 absolute top-[22em] left-[12.5em]"
+                onclick="plotCorrelation()">Calculate Auto-correlation</button>
+              </div>
+              </div>
+			  </div>
+			  </div>
 			  
 	<div class = "right-half">
 			<div id = "scrolltoinput" class="flex items-center gap-2 justify-center max-lg:flex-col">
@@ -257,10 +257,10 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
               <div id="cirPlot" class="w-[600px] h-[450px]"></div>
 			</div>
 			<div id = "scrolltooutput" class="flex items-center gap-2 justify-center max-lg:flex-col">
-              <div id="ltiOutput" class="w-[600px] h-[450px]"></div>
+              <div id="ARMAOutput" class="w-[600px] h-[450px]"></div>
 			</div>
 			<div id = "scrolltostats" class="flex items-center gap-2 justify-center max-lg:flex-col">
-              <div id="ltiStats" class="w-[600px] h-[450px]"></div>
+              <div id="ARMAStats" class="w-[600px] h-[250px]"></div>
 			</div>
 	</div>
 </div>
@@ -268,6 +268,7 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
 
 <br/><br/>
 <hr class="my-6 border-t-2 border-gray-800"/>
+
 
 </h2>
 
@@ -283,8 +284,14 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
             <h2>Upload CSV and See Output</h2>
             <input type="file" id="csvInput" accept=".csv">
             <br/><br/><br/>
-            Channel Impulse Response<br/>
-            <input type="text" id="impulseResponsexx" value="0.2,0.5,0.2">  
+            <div class="flex items-center justify-center gap-1 mt-2">
+                <label for="impulseResponseaxx">AR coefficients:</label>
+        <input class="input-field border border-black px-2 py-1 rounded-sm" type="text" id="impulseResponseaxx" value="1, -0.8">
+                        </div>
+                    <div class="flex items-center justify-center gap-1 mt-2 hidden">
+                <label for="impulseResponsexx">MA coefficients:</label>
+        <input class="input-field border border-black px-2 py-1 rounded-sm" type="text" id="impulseResponsexx" value="1, -0.5">
+                        </div> 
         </div>
     </div>   
     <div class="box">
@@ -294,8 +301,8 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
 
         <div class="box">
         <p>Output</p>
-        <div id="ltiOutputxx" class="w-[30em] h-[20em]"></div>
-        <div id="ltiStatsxx"></div>
+        <div id="ARMAOutputxx" class="w-[30em] h-[20em]"></div>
+        <div id="ARMAStatsxx"></div>
     </div>
 </div>
 
@@ -346,7 +353,7 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
 
         // Generate WSS process using Box-Muller transform for normal distribution
         function generateWSS(n) {
-          let mean = parseFloat(document.getElementById('mean').value);
+            let mean = parseFloat(document.getElementById('mean').value);
             let variance = parseFloat(document.getElementById('variance').value);
             let wss = [];
             for (let i = 0; i < n; i++) {
@@ -374,18 +381,33 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
             return impulseResponse;
         }
 
-        // Convolve input with impulse response for LTI system
-        function convolve(input, impulseResponse) {
-            const n = input.length;
-            const m = impulseResponse.length;
-            let output = Array(n + m - 1).fill(0);
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < m; j++) {
-                    output[i + j] += input[i] * impulseResponse[j];
-                }
+        // Function to apply the filter using the difference equation
+        function arma(x, a) {
+    let N = x.length;   // Length of the signal
+    let y = new Array(N).fill(0);  // Initialize output array with zeros
+
+    // Apply the AR process for each sample
+    for (let n = 0; n < N; n++) {
+        let ynSum = 0;
+
+        // Sum over the past y values, starting from j = 1 (as a[0] = 1, normalized)
+        for (let j = 1; j < a.length; j++) {  
+            if (n - j >= 0) {
+                ynSum += a[j] * y[n - j];  // Calculate AR contribution
             }
-            return output;
         }
+
+        // Add the AR coefficient a[0] which is assumed to be 1
+        ynSum += a[0] * x[n];  // Assuming input is included
+
+        // Store the result
+        y[n] = ynSum;
+    }
+
+    return y;
+}
+
+
      
 	         const rr = {
             showLink: false,             
@@ -436,65 +458,86 @@ onclick="plotCorrelation()">Calculate Auto-correlation</button>
         function generateImpulseResponse() {
             // Generate outputs based on current values
             const impulseResponse = document.getElementById("impulseResponse").value.split(',').map(Number);
-            let ltiOutput = convolve(input, impulseResponse);
+			const impulseResponsea = document.getElementById("impulseResponsea").value.split(',').map(Number);
+            let L = 20;
+            let impulse = new Array(L).fill(0);
+            impulse[0] = 1;  // delta[n] = 1 at n = 0
+            let impulseResponsexx = arma(impulse, impulseResponsea);
 			
-			Plotly.newPlot('cirPlot', [{
-                x: Array.from({ length: 1000000 }, (_, i) => i).flatMap(i => [i, i, null]),
-                y: impulseResponse.slice(0, 10).flatMap(y => [0, y, null]),
+			//Plotly.newPlot('cirPlot', [{
+			const maData = [{
+                x: Array.from({ length: 20 }, (_, i) => i).flatMap(i => [i, i, null]),
+                y: impulseResponsexx.slice(0, 20).flatMap(y => [0, y, null]),
                 type: 'scatter',
                 mode: 'lines',
 								line: { color: 'blue', width: 4 },
 				type: 'scatter',
                 name: `Input`
-            }], {
-                title: `CIR Plot`,
+            }]; 
+		    // Layout for the CIR plot
+    const cirLayout = {	
+                title: `CIR Coefficients`,
 				xaxis: { title: 'Sample Index' }
-            }, rr);
-			document.getElementById('scrolltocir').scrollIntoView({ behavior: 'smooth' });
+            };
+    // Plot the CIR graph
+    Plotly.newPlot('cirPlot', maData, cirLayout, rr);
+	document.getElementById('scrolltocir').scrollIntoView({ behavior: 'smooth' });
 			}
-        function generateImpulseResponsexx() {
+
+            function generateImpulseResponsexx() {
             // Generate outputs based on current values
             const impulseResponse = document.getElementById("impulseResponsexx").value.split(',').map(Number);
+			const impulseResponsea = document.getElementById("impulseResponseaxx").value.split(',').map(Number);
+            let L = 20;
+            let impulse = new Array(L).fill(0);
+            impulse[0] = 1;  // delta[n] = 1 at n = 0
+            let impulseResponsexx = arma(impulse, impulseResponsea);
 			
-			Plotly.newPlot('cirPlotxx', [{
-                x: Array.from({ length: 1000000 }, (_, i) => i).flatMap(i => [i, i, null]),
-                y: impulseResponse.slice(0, 10).flatMap(y => [0, y, null]),
+			//Plotly.newPlot('cirPlot', [{
+			const maData = [{
+                x: Array.from({ length: 20 }, (_, i) => i).flatMap(i => [i, i, null]),
+                y: impulseResponsexx.slice(0, 20).flatMap(y => [0, y, null]),
                 type: 'scatter',
                 mode: 'lines',
 								line: { color: 'blue', width: 4 },
 				type: 'scatter',
                 name: `Input`
-            }], {
-                title: `CIR Plot`,
+            }]; 
+		    // Layout for the CIR plot
+    const cirLayout = {	
+                title: `CIR Coefficients`,
 				xaxis: { title: 'Sample Index' }
-            }, rr);
+            };
+    // Plot the CIR graph
+    Plotly.newPlot('cirPlotxx', maData, cirLayout, rr);
 			}
 			
-let ltiOutputValue; // Declare in the global scope
+let ARMAOutputValue; // Declare in the global scope
 
-function generateLTIOutput() {
+function generateARMAOutput() {
     // Generate outputs based on current values
     const impulseResponse = document.getElementById("impulseResponse").value.split(',').map(Number);
-    let ltiOutput = convolve(input, impulseResponse); // Compute LTI output
-    ltiOutputValue = ltiOutput; // Assign to the global variable
+    const impulseResponsea = document.getElementById("impulseResponsea").value.split(',').map(Number);
+    let ARMAOutput = arma(input, impulseResponsea); // Compute ARMA output
+    ARMAOutputValue = ARMAOutput; // Assign to the global variable
 
     // Plot the output using Plotly
-    Plotly.newPlot('ltiOutput', [{
-        x: [...Array(ltiOutput.length).keys()],
-        y: ltiOutput,
+    Plotly.newPlot('ARMAOutput', [{
+        x: [...Array(ARMAOutput.length).keys()],
+        y: ARMAOutput,
         type: 'scatter',
         mode: 'lines',
-        name: 'LTI Output'
+        name: 'ARMA Output'
     }], {
-        title: 'LTI System Output',
+        title: 'AR System Output',
         xaxis: { title: 'Sample Index' }
     }, rr);
 
     // Display statistical properties below the plot
-    document.getElementById("ltiStats").innerHTML = `
-        <h3>LTI Output Statistics</h3>
-        <p>Mean: ${mean(ltiOutput)}</p>
-        <p>Variance: ${variance(ltiOutput)}</p>
+    document.getElementById("ARMAStats").innerHTML = `
+        <h3>AR Output Statistics</h3>
+        <p>Mean: ${mean(ARMAOutput)}</p>
+        <p>Variance: ${variance(ARMAOutput)}</p>
     `;
 
     // Smooth scroll to the output section
@@ -514,29 +557,30 @@ document.getElementById('csvInput').addEventListener('change', function (event) 
 function generateLTIOutputxx() {
     // Generate outputs based on current values
     const impulseResponse = document.getElementById("impulseResponse").value.split(',').map(Number);
-    let ltiOutput = convolve(signal, impulseResponse); // Compute LTI output
-    ltiOutputValue = ltiOutput; // Assign to the global variable
+    const impulseResponsea = document.getElementById("impulseResponsea").value.split(',').map(Number);
+    let ARMAOutput = arma(signal, impulseResponsea); // Compute ARMA output
+    ARMAOutputValue = ARMAOutput; // Assign to the global variable
 
     // Plot the output using Plotly
-    Plotly.newPlot('ltiOutputxx', [{
-        x: [...Array(ltiOutput.length).keys()],
-        y: ltiOutput,
+    Plotly.newPlot('ARMAOutputxx', [{
+        x: [...Array(ARMAOutput.length).keys()],
+        y: ARMAOutput,
         type: 'scatter',
         mode: 'lines',
-        name: 'LTI Output'
+        name: 'ARMA Output'
     }], {
-        title: 'LTI System Output',
+        title: 'AR System Output',
         xaxis: { title: 'Sample Index' }
     }, rr);
 
     // Display statistical properties below the plot
-    document.getElementById("ltiStatsxx").innerHTML = `
-        <h3>LTI Output Statistics</h3>
-        <p>Mean: ${mean(ltiOutput)}</p>
-        <p>Variance: ${variance(ltiOutput)}</p>
+    document.getElementById("ARMAStatsxx").innerHTML = `
+        <h3>AR Output Statistics</h3>
+        <p>Mean: ${mean(ARMAOutput)}</p>
+        <p>Variance: ${variance(ARMAOutput)}</p>
     `;
     const maxLag = 50;
-    const Ry = auto_correlation(ltiOutput, maxLag);
+    const Ry = auto_correlation(ARMAOutput, maxLag);
     const Rx = auto_correlation(csvInput, maxLag);
 
     const trace1 = {
@@ -565,7 +609,7 @@ function generateLTIOutputxx() {
     Plotly.newPlot('outputCorrelation', [trace1, trace2], layout);
 
 }
-generateImpulseResponsexx()
+generateImpulseResponsexx();
 generateLTIOutputxx();
     };
 
@@ -611,7 +655,7 @@ generateLTIOutputxx();
             });
         }
 		
-		//////////////////////////plot///////////////////////////
+				//////////////////////////plot///////////////////////////
 		function plotautocorrelationinput1() {
         // Extract data for plotting
         const lags = autocorrelationData.map(entry => entry.lag);
@@ -694,8 +738,8 @@ generateLTIOutputxx();
                 cell3.textContent = entry.autocorrelation1;
             });
         }
-	
-        ////////////////////////////plot///////////////////////////
+		
+		     ////////////////////////////plot///////////////////////////
 function plotautocorrelationinput2() {
     // Extract data for plotting
     const labels = autocorrelationData1.map(entry => `(${entry.t1},${entry.t2})`);
@@ -736,7 +780,7 @@ let autocorrelationDataOutput = []; // Array to store the lag and autocorrelatio
 
 function autocorrelation111() {
     let lag = parseInt(document.getElementById('lag1').value);
-    let input11 = ltiOutputValue; // Input signal
+    let input11 = ARMAOutputValue; // Input signal
     let result11 = autocorrelation1(input11, lag);
     
     // Display autocorrelation result
@@ -772,7 +816,6 @@ function updateTable3() {
         cell2.textContent = entry.autocorrelation;
     });
 }
-
 		//////////////////////////plot///////////////////////////
 		function plotautocorrelationoutput1() {
         // Extract data for plotting
@@ -797,11 +840,10 @@ function updateTable3() {
         Plotly.newPlot("plotautocorrelationoutput1", [trace], layout, rr);
     }
 		/////////////////////////plot ends///////////////////////
-
 let autocorrelationDataOutput1 = []; // Array to store the t1, t2, and autocorrelation values
 
 function autocorrx1() {
-    let X = ltiOutputValue; // Input signal
+    let X = ARMAOutputValue; // Input signal
     let t1 = parseInt(document.getElementById('t11').value); // Time index 1
     let t2 = parseInt(document.getElementById('t21').value); // Time index 2
 
@@ -858,8 +900,7 @@ function updateTable4() {
         cell2.textContent = entry.t2;
         cell3.textContent = entry.autocorrelation1;
     });
-}
-/////////////////////////////plot//////////////////////////////
+}/////////////////////////////plot//////////////////////////////
 function plotautocorrelationoutput2() {
     // Extract data for plotting
     const labels = autocorrelationDataOutput1.map(entry => `(${entry.t1},${entry.t2})`);
@@ -912,7 +953,7 @@ function auto_correlation(signal, maxLag) {
 
 function plotCorrelation() {
     const maxLag = 50;
-    const Ry = auto_correlation(ltiOutputValue, maxLag);
+    const Ry = auto_correlation(ARMAOutputValue, maxLag);
     const Rx = auto_correlation(input, maxLag);
 
     const trace1 = {
@@ -932,7 +973,7 @@ function plotCorrelation() {
     };
 
     const layout = {
-      title: 'Autocorrelation of WSS Input and LTI Output',
+      title: 'Autocorrelation of WSS Input and AR Output',
       xaxis: { title: 'Lag (k)' },
       yaxis: { title: 'Autocorrelation' },
       legend: { x: 0.1, y: 1 }
@@ -941,6 +982,7 @@ function plotCorrelation() {
     Plotly.newPlot('correlationPlot', [trace1, trace2], layout);
     document.getElementById('correlationPlot').scrollIntoView({ behavior: 'smooth' });
 }
+
 function generateNoisySinusoid(N, freq, amp, mean = 0, variance = 1, sampleRate) {
   const signal = [];
   for (let n = 0; n < N; n++) {
@@ -959,7 +1001,6 @@ function randn_bm() {
   while(v === 0) v = Math.random();
   return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 }
-
     </script>
 </body>
 </html>
