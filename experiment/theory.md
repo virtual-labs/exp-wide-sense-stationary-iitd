@@ -18,7 +18,9 @@ Random variables and Stochastic processes, provide the probabilistic framework f
       The <strong>Gaussian (or Normal) distribution</strong> is a symmetric, bell-shaped curve defined by its mean (μ) and variance (σ²). It is widely used because many natural phenomena approximate this distribution.
     </p>
     <h2>Stationarity in Time Series</h2>
-    <p>For a stochastic process to be analyzed with standard models, it often needs to be <strong>stationary</strong>, meaning its statistical properties do not change over time.</p>
+    <p>For a stochastic process to be analyzed with standard models, it often needs to be <strong>stationary</strong>, meaning its statistical properties do not change over time.
+    Many theoretical results and practical modeling techniques assume that the statistical properties of a time series remain unchanged over time. Such processes are called stationary. Stationarity greatly simplifies mathematical analysis because the process behaves consistently regardless of when it is observed. Most classical time series models, including AR, MA, and ARMA models, are developed under this assumption.
+    </p>
     <h3><strong>Strictly Stationary Process</strong></h3>
     <p>
       A time series {X<sub>t</sub>} is <strong>strictly stationary</strong> if its joint probability distribution remains unchanged under shifts in time. That is, for any set of time indices t<sub>1</sub>, ..., t<sub>m</sub> and any time shift τ, the joint distribution of (X<sub>t₁+τ</sub>, ..., X<sub>tₘ+τ</sub>) is the same as that of (X<sub>t₁</sub>, ..., X<sub>tₘ</sub>).
