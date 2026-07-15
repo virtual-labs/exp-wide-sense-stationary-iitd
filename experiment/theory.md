@@ -1,5 +1,7 @@
-  <p>
-      Understanding and modeling time-dependent data is crucial in many fields. This document outlines the foundational concepts of time series analysis, starting with the building blocks of random variables and stochastic processes, and progressing to the widely used AR, MA, and ARMA models. These tools allow us to characterize, predict, and analyze data that evolves randomly over time.
+<h3><strong>Random Variables and Stochastic Processes</strong></h3>
+      <p>
+      Understanding and modeling time-dependent data is crucial in many fields i.e. science, economics, finance, and signal processing. Unlike independent observations, time series data exhibits temporal dependence, meaning that current observations are often influenced by past events. The primary objective of time series analysis is to identify these underlying patterns, characterize the statistical behavior of the data, and develop mathematical models capable of analysis, prediction, and forecasting.
+Random variables and Stochastic processes, provide the probabilistic framework for describing random phenomena evolving over time.  
     </p>
     <h3><strong>Random Variables and Stochastic Processes</strong></h3>
     <p>
